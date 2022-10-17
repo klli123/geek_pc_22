@@ -11,8 +11,9 @@ function App() {
       <div className="App">
         <Routes>
           {/* <Navigate exact from='/' to='/login'></Navigate> */}
-          <Route exact path='/login' element={<Login />}></Route>
-          <Route exact path='/layout' element={<Layout />}></Route>
+          <Route path='/' element={<Login />}></Route>
+          <Route path='/login' element={<Login />}></Route>
+          <Route path='/layout' element={<Layout />}></Route>
           <Route path='*'></Route>
         </Routes>
       </div>
