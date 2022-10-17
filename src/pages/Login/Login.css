@@ -1,0 +1,23 @@
+.login {
+    position: relative;
+    background: url('../../assets/login.png') 0 0 no-repeat;
+    width: 100%;
+    height: 100%;
+}
+.login-container {
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-200px,-175px);
+    width: 400px;
+    height: 350px;
+    /* border: 1px red solid */
+}
+.agreement {
+    border:1px red solid;
+    margin-left:0!important;
+}
+.img {
+    width: 100%;
+    padding-top:-12px
+}
