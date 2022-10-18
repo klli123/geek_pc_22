@@ -3,7 +3,8 @@ import './App.css';
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'
 import Login from './pages/Login/Login'
-import Layout from './pages/Layout/Layout'
+import Home from './pages/Home/home'
+import NotFound from './pages/NotFound/index'
 
 function App() {
   return (
@@ -13,8 +14,8 @@ function App() {
           {/* <Navigate exact from='/' to='/login'></Navigate> */}
           <Route path='/' element={<Login />}></Route>
           <Route path='/login' element={<Login />}></Route>
-          <Route path='/layout' element={<Layout />}></Route>
-          <Route path='*'></Route>
+          <Route path='/home' element={<Home />}></Route>
+          <Route path='*' element={<NotFound />}></Route>
         </Routes>
       </div>
     </Router>

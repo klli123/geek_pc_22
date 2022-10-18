@@ -1,0 +1,24 @@
+.h_left{
+    float: left;
+    width: 200px;
+    margin-left:-50px;
+}
+.h_right{
+    float:right;
+    width: 200px;
+    margin-right:-50px;
+}
+.user_profile, .logout_btn{
+    color:#fff;
+    background-color: transparent;
+}
+
+.logout {
+    padding-left:50px;
+}
+.home_item {
+    margin-left:10px;
+    color:#fff;
+    font-size:20px;
+    font-weight:700;
+}

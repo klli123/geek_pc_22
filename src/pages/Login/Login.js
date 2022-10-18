@@ -1,7 +1,7 @@
 import React from 'react';
 import './Login.css';
 import { Navigate } from 'react-router-dom';
-import { Button, Checkbox, Form, Input, Card } from 'antd';
+import { Button, Checkbox, Form, Input, Card, message } from 'antd';
 import img from '../../assets/logo.png'
 import { login } from '../../api/user_login'
 
@@ -11,7 +11,7 @@ class Login extends React.Component {
 
     render() {
         return (
-            sessionStorage.getItem('token') ? <Navigate to="/layout" /> :
+            sessionStorage.getItem('token') ? <Navigate to="/home" /> :
                 <div className="login">
                     {/* Card Component is the login frame, it contains logo image and username/password input tag */}
                     <Card
@@ -117,10 +117,17 @@ class Login extends React.Component {
     // because login() is an async function, there must have await keyword ahead of it, otherwise onFinish event would be no result 
     // before export default Login executed.
     onFinish = async ({ mobile, code }) => {
-        const res = await login(mobile, code);
-        console.log(res)
-        sessionStorage.setItem('token', res.data.token);
-        this.setState({ token: sessionStorage.getItem('token') })
+        // here we use try...catch because the server only accept 246810 as code, so we need to alert user for any wrong code input
+        try {
+            const res = await login(mobile, code);
+            console.log(res)
+            sessionStorage.setItem('token', res.data.token);
+            this.setState({ token: sessionStorage.getItem('token') })
+            message.success('successfully login')
+        } catch (error) {
+            console.dir(error)
+            message.warn(error.response.data.message)
+        }
     }
 }
 
