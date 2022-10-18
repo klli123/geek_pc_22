@@ -4,7 +4,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'
 import Login from './pages/Login/Login'
 import Home from './pages/Home/home'
-import NotFound from './pages/NotFound/index'
+import NotFound from './pages/NotFound'
 
 function App() {
   return (
