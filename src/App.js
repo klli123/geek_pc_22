@@ -12,9 +12,11 @@ function App() {
       <div className="App">
         <Routes>
           {/* <Navigate exact from='/' to='/login'></Navigate> */}
+          {/* <Route path> and <Link to> are relative. This means that they automatically build on the 
+          parent route's path and URL so you don't have to manually interpolate match.url or match.path */}
           <Route path='/' element={<Login />}></Route>
-          <Route path='/login' element={<Login />}></Route>
-          <Route path='/home' element={<Home />}></Route>
+          <Route path='login' element={<Login />}></Route>
+          <Route path='home/*' element={<Home />}></Route>
           <Route path='*' element={<NotFound />}></Route>
         </Routes>
       </div>
