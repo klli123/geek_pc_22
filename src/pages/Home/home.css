@@ -16,7 +16,9 @@
           }
           
 .site-layout-background {
-            background: #fff;
+            background: url(assets/chart.png)  ;
+            background-size: 100% 100%;
+
 }
 .header {
   padding-left: 0!important;
