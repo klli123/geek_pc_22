@@ -1,4 +1,4 @@
-import request from '../utils/axios'
+import request from 'utils/axios'
 
 export const login = (mobile, code) => {
     // capsulate axios instance and return a promise object which contains response from Server
@@ -12,3 +12,9 @@ export const login = (mobile, code) => {
     })
 }
 
+export const getProfile = () => {
+    return request({
+        method: 'GET',
+        url: '/user/profile'
+    })
+}

@@ -3,15 +3,18 @@ import './Login.css';
 import { Navigate } from 'react-router-dom';
 import { Button, Checkbox, Form, Input, Card, message } from 'antd';
 import img from '../../assets/logo.png'
-import { login } from '../../api/user_login'
+import { login } from 'api/user_login'
+import { Token_Key, setToken, getToken, hasToken } from 'utils/token.js'
 
 class Login extends React.Component {
     // here the state is only used for triggering re-render in order to navigate to main page if there is a token
-    state = { token: '' }
+    TokenExist = hasToken(Token_Key) ? getToken(Token_Key) : '';
+    state = { token: this.TokenExist }
 
     render() {
         return (
-            !!this.state.token ? <Navigate to="/home" /> :
+
+            this.state.token !== '' ? <Navigate to="/home" /> :
                 <div className="login">
                     {/* Card Component is the login frame, it contains logo image and username/password input tag */}
                     <Card
@@ -120,12 +123,12 @@ class Login extends React.Component {
         // here we use try...catch because the server only accept 246810 as code, so we need to alert user for any wrong code input
         try {
             const res = await login(mobile, code);
-            console.log(res)
-            sessionStorage.setItem('token', res.data.token);
-            this.setState({ token: sessionStorage.getItem('token') })
-            message.success('successfully login')
+            setToken(Token_Key, res.data.token)
+            message.success('successfully login', 1)
+            this.setState({ token: getToken(Token_Key) }, () => { this.props.withToken(this.state.token) })
+
         } catch (error) {
-            console.dir(error)
+            // console.dir(error)
             message.warn(error.response.data.message)
         }
     }

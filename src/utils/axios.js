@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { Token_Key, getToken, hasToken } from 'utils/token.js'
 
 // making axios instance default configuration
 const instance = axios.create({
@@ -8,6 +9,9 @@ const instance = axios.create({
 
 instance.interceptors.request.use(function (config) {
     // Do something before request is sent
+    if (hasToken(Token_Key)) {
+        config.headers.Authorization = `Bearer ${getToken(Token_Key)}`
+    }
     return config;
 }, function (error) {
     // Do something with request error
