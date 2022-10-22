@@ -2,12 +2,13 @@
 import { LogoutOutlined, HomeOutlined, DiffOutlined, EditOutlined } from '@ant-design/icons';
 import { Layout, Menu, Button, Popconfirm } from 'antd';
 import React from 'react';
-import Article from 'pages/Article'
-import List from 'pages/List'
-import Image from 'pages/Image'
-import { Token_Key, removeToken } from 'utils/token.js'
-import { Routes, Route, Link, Navigate } from 'react-router-dom'
-import { getProfile } from 'api/user_login'
+import Article from 'pages/Article';
+import List from 'pages/List';
+import Image from 'pages/Image';
+import { Token_Key, removeToken } from 'utils/token.js';
+import { Routes, Route, Link, Navigate } from 'react-router-dom';
+import history from "utils/history";
+import { getProfile } from 'api/user_login';
 import './home.css';
 
 const { Header, Content, Sider } = Layout
@@ -20,8 +21,8 @@ export default class Home extends React.Component {
         profile: '',
     }
 
-    // item represents which link has been clicked, then correspondent child route has to be rendered 
     render() {
+        // console.log(history)
         return this.state.isLogout ? <Navigate to='/login' /> :
             (<Layout className="layout">
                 <Header className="header">
@@ -47,15 +48,16 @@ export default class Home extends React.Component {
                             mode="inline"
                             theme='dark'
                             //This is for default highlight option
-                            defaultSelectedKeys={['1']}
+                            defaultSelectedKeys={history.location.pathname}
                         >
-                            <Menu.Item key="1" icon={<HomeOutlined />}>
+                            {/* item represents which link has been clicked, then correspondent child route has to be rendered  */}
+                            <Menu.Item key="/home" icon={<HomeOutlined />}>
                                 <Link to='/home'>Data Overview</Link>
                             </Menu.Item>
-                            <Menu.Item key="2" icon={<DiffOutlined />}>
+                            <Menu.Item key="/home/list" icon={<DiffOutlined />}>
                                 <Link to='/home/list'>Article Management</Link>
                             </Menu.Item>
-                            <Menu.Item key="3" icon={<EditOutlined />}>
+                            <Menu.Item key="/home/publish" icon={<EditOutlined />}>
                                 <Link to='/home/publish'>Article Publishment</Link>
                             </Menu.Item>
 
@@ -95,7 +97,6 @@ export default class Home extends React.Component {
     async componentDidMount() {
         try {
             const profile = await getProfile();
-            console.log(profile);
             this.setState({ profile: profile.data.name })
         }
         catch (error) {

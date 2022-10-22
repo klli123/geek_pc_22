@@ -1,17 +1,21 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { unstable_HistoryRouter as Router, Routes, Route } from 'react-router-dom'
 import Login from './pages/Login/Login'
 import Home from './pages/Home/Home'
 import NotFound from './pages/NotFound'
 import { Token_Key, getToken, hasToken } from 'utils/token.js'
 import React, { Component } from 'react'
+import history from 'utils/history'
+
 
 export default class App extends Component {
   TokenExist = hasToken(Token_Key) ? getToken(Token_Key) : '';
   state = { token: this.TokenExist }
   render() {
     return (
-      <Router>
+      //Here we must use unstable_HistoryRouter, it cannot be simply used with Router
+      <Router history={history}>
         <div className="App">
           <Routes>
             {/* <Route path> and <Link to> are relative. This means that they automatically build on the 
@@ -28,7 +32,8 @@ export default class App extends Component {
             <Route path='*' element={<NotFound />}></Route>
           </Routes>
         </div>
-      </Router>);
+      </Router>
+    );
   }
   withToken = (token) => { this.setState({ token: token }, this.callback) }
   callback = () => { return this.state.token }

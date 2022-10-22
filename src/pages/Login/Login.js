@@ -13,7 +13,6 @@ class Login extends React.Component {
 
     render() {
         return (
-
             this.state.token !== '' ? <Navigate to="/home" /> :
                 <div className="login">
                     {/* Card Component is the login frame, it contains logo image and username/password input tag */}

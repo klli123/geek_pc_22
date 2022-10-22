@@ -1,5 +1,7 @@
 import axios from 'axios'
-import { Token_Key, getToken, hasToken } from 'utils/token.js'
+import { Token_Key, getToken, hasToken, removeToken } from 'utils/token.js'
+import { message } from 'antd'
+import history from 'utils/history'
 
 // making axios instance default configuration
 const instance = axios.create({
@@ -26,6 +28,14 @@ instance.interceptors.response.use(function (response) {
 }, function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
+    if (error.response.status === 401) {
+        removeToken(Token_Key);
+        message.warn('Your token is invalid, please login again', 2);
+        //How to redirect to login page?
+        // window.location.href = '/login'
+        history.push('/login');
+
+    }
     return Promise.reject(error);
 });
 export default instance
