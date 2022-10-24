@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Card, Select, Breadcrumb, Button, Form, Radio, DatePicker, Space, Table, Tag } from 'antd'
 import { Link } from 'react-router-dom'
-// import styles from './index.module.scss'
+import {DeleteOutlined,EditOutlined} from '@ant-design/icons'
 import { ArticleStatus } from 'api/constants'
 import { getChannels } from 'api/channel'
 import { getArticles } from 'api/article'
@@ -22,9 +22,9 @@ export default class List extends Component {
       title: 'Cover',
       render(data) {
         if (data.cover.type === 0) {
-          return <img src={defaultImg} style={{ width: 200, height: 120, objectFit: 'cover' }} />
+          return <img src={defaultImg} style={{ width: 200, height: 120, objectFit: 'cover' }} alt='' />
         }
-        return <img src={data.cover.images[0]} style={{ width: 200, height: 120, objectFit: 'cover' }} />
+        return <img src={data.cover.images[0]} style={{ width: 200, height: 120, objectFit: 'cover' }} alt = ''/>
       }
     },
     {
@@ -34,6 +34,10 @@ export default class List extends Component {
     {
       title: 'State',
       dataIndex: 'status',
+      render(status) {
+        const obj = ArticleStatus.find((item) => { return item.id === status })
+        return <Tag color={obj.color}>{obj.name}</Tag>
+      }
     },
     {
       title: 'Publish Date',
@@ -53,7 +57,14 @@ export default class List extends Component {
     },
     {
       title: 'Control',
-      dataIndex: 'tags',
+      render(data) {
+        return (
+        <Space>
+        <Button type='primary' shape='circle' icon={<EditOutlined />}></Button>
+        <Button type='primary' danger shape='circle' icon={<DeleteOutlined />}></Button>
+        </Space>
+        )
+      }
     },
   ];
 
