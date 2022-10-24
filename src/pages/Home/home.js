@@ -67,6 +67,7 @@ export default class Home extends React.Component {
                         style={{
                             //This can adjust content part padding
                             padding: '14px',
+                            overflow: 'auto',
                         }}
                     >
 

@@ -5,73 +5,60 @@ import { Link } from 'react-router-dom'
 import { ArticleStatus } from 'api/constants'
 import { getChannels } from 'api/channel'
 import { getArticles } from 'api/article'
+import defaultImg from 'assets/defaultImage.png'
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
 
+
 export default class List extends Component {
   state = {
     channels: [],
-  articles: {}}
+    articles: {}
+  }
   columns = [
     {
       title: 'Cover',
-      dataIndex: 'name',
+      render(data) {
+        if (data.cover.type === 0) {
+          return <img src={defaultImg} style={{ width: 200, height: 120, objectFit: 'cover' }} />
+        }
+        return <img src={data.cover.images[0]} style={{ width: 200, height: 120, objectFit: 'cover' }} />
+      }
     },
     {
       title: 'Title',
-      dataIndex: 'age',
+      dataIndex: 'title',
     },
     {
       title: 'State',
-      dataIndex: 'address',
+      dataIndex: 'status',
     },
     {
       title: 'Publish Date',
-      dataIndex: 'tags',
+      dataIndex: 'pubdate',
     },
     {
       title: 'Views',
-      dataIndex: 'tags',
+      dataIndex: 'read_count',
     },
     {
       title: 'Comments',
-      dataIndex: 'tags',
+      dataIndex: 'comment_count',
     },
     {
       title: 'Like',
-      dataIndex: 'tags',
+      dataIndex: 'like_count',
     },
     {
       title: 'Control',
       dataIndex: 'tags',
     },
   ];
-  data = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-      tags: ['nice', 'developer'],
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-      tags: ['loser'],
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
-      tags: ['cool', 'teacher'],
-    },
-  ];
+
   render() {
+    const { results, total_count } = this.state.articles;
     return (
       <>
         <Card title={<Breadcrumb>
@@ -89,11 +76,6 @@ export default class List extends Component {
               <Radio.Group >
                 {/* -1 means no match result in server, then server will response all data */}
                 {ArticleStatus.map((item) => { return <Radio key={item.id} value={item.id}>{item.name}</Radio> })}
-                {/* <Radio value={-1}>All</Radio>
-              <Radio value={0}>Draft</Radio>
-              <Radio value={1}>Waiting for Audit</Radio>
-              <Radio value={2}>Audit Success</Radio>
-              <Radio value={3}>Audit Failure</Radio> */}
               </Radio.Group>
             </Form.Item>
             <Form.Item
@@ -119,8 +101,8 @@ export default class List extends Component {
             </Form.Item>
           </Form>
         </Card>
-        <Card title="xxx results have been shown according to search criteria:">
-          <Table columns={this.columns} dataSource={this.data} />
+        <Card title={`${total_count} results have been shown according to search criteria:`}>
+          <Table columns={this.columns} dataSource={results} rowKey="id" />
         </Card>
       </>
     )
